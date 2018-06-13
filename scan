@@ -1,0 +1,113 @@
+#!/bin/bash
+clear
+printf "_________________________________________________"
+echo
+printf "|                                               |"
+echo
+printf "|                Automatização                 |"
+echo
+printf "|                                               |"
+echo
+printf "_________________________________________________"
+echo
+echo
+while true; do
+echo
+echo "***************************************************************************"
+echo
+	echo -e "\e[94mescolha o comando a execudar;"
+echo
+	printf "1)host - utilitário simples para realizar pesquisas de DNS"
+echo
+	printf "2)dig - ferramenta flexível para interrogar Servidores de nomes DNS"
+echo
+	printf "3)DNSenum - ferramenta de Analise ao servidores DNS"
+echo
+	printf "4)DNSrecon - ferramenta para reconhecimento dos registos DNS assim como a procura de sub-domínios"
+echo
+	printf "5)Fierce - localizar IPs não contíguos e os seus respectivos hosts e domínios"
+echo
+	printf "6)Pesquisa direta DNS"
+echo
+	printf "7)Pesquisa DNS reverva"
+echo
+	printf "8)Pesquisa whois"
+echo
+echo
+	echo -e "\e[36mescolha um parametro: \e[0m"
+	read comand
+	echo
+
+	case $comand in
+	1)
+	printf "\e[93mdigite o parametro: \e[0m"
+        read flag
+	printf "\e[93mdigite o host: \e[0m"
+	read host
+	host -$flag $host
+	;;
+
+	2)
+	printf "\e[93mdigite o parametro: \e[0m"
+        read flag
+        echo
+        printf "\e[93mDigite o host: \e[0m"
+        read host
+	dig -$flag $host
+	;;
+
+	3)
+	printf "\e[93mdigite o parametro: \e[0m"
+        read flag
+        echo
+        printf "\e[93mDigite o host: \e[0m"
+        read host
+	dnsenum -$flag $host
+	;;
+
+	4)
+	printf "\e[93mdigite o parametro: \e[0m"
+	read flag
+        echo
+        printf "\e[93mDigite o host: \e[0m"
+        read host
+	dnsrecon -$flag -d $host
+	;;
+
+	5)
+	printf "\e[93mdigite o parametro: \e[0m"
+        read flag
+	echo
+	printf "\e[93mDigite o host: \e[0m"
+	read host
+	fierce -dns $host -$flag
+	;;
+
+	6)
+	printf "\e[36mPor padrão é utilizado o arquivo do dnsrecon para consultar os paramentros!\e[0m"
+	echo
+	printf "\e[93mDigite o host: \e[0m"
+	read host
+	echo
+	for url in $(cat /usr/share/dnsrecon/namelist.txt);do host $url.$host;done
+	;;
+
+	7)printf "\e[36mPor padrão é utilizado o arquivo do dnsrecon para consultar os paramentros!\e[0m"
+	echo
+	printf "\e[93mDigite o host: \e[0m"
+	read host
+	echo
+	for url in $(cat /usr/share/dnsrecon/namelist.txt);do host $host/$url;done
+	;;
+	
+	8)
+	echo -e "\e[93mdigite o endereço de um site: \e[0m"
+	read host
+	echo
+	whois $host
+	;;
+
+	*)
+	exit
+esac
+done
